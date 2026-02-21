@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <title>PearlScout - Confirmation &amp; Payment</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script
+    data-purpose="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { brand: { light: "#f8fafc", accent: "#2563eb", dark: "#1e293b", gray: "#64748b" }, primary: "#023E8A", "background-light": "#f5f7f8", "background-dark": "#0f1823" }, fontFamily: { sans: ["Inter", "system-ui", "-apple-system", "sans-serif"], display: "Inter" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" } } } };</script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+
+<body
+  class="invisible bg-background-light dark:bg-background-dark text-brand-dark dark:text-slate-100 font-display antialiased min-h-screen flex flex-col">
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+    
+    window.supabase = createClient(
+      "https://ysfmxpubcyrkxdtzubvp.supabase.co",
+      "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzZm14cHViY3lya3hkdHp1YnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwODMsImV4cCI6MjA4NzE4NDA4M30"
+    )
+    
+    // 1. Check session
+    const { data: { session } } = await supabase.auth.getSession()
+    
+    if (!session) {
+      window.location.href = "signup.html"
+      throw new Error("No session")
+    }
+    
+    // 2. Get user
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    // 3. Ensure profile exists
+    await supabase.from("profiles").upsert({
+      id: user.id,
+      email: user.email,
+      name: user.user_metadata?.name ?? null
+    })
+    
+    // 4. Reveal page
+    document.body.classList.remove("invisible")
+    </script>
+    
+  <!-- Header -->
+  <div id="protected-content" style="display:none;">
+  <header class="w-full border-b border-slate-100 bg-white/80 dark:bg-slate-900/50 backdrop-blur-md shrink-0">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html"
+        class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark dark:text-slate-200">
+        <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
+          <div class="w-4 h-4 border-2 border-white rounded-full"></div>
+        </div>
+        <span>PearlScout</span>
+      </a>
+    </div>
+  </header>
+  <!-- Main Content Container -->
+  <main class="flex-grow flex items-center justify-center p-6 sm:p-12">
+    <div class="max-w-6xl mx-auto w-full flex justify-center">
+      <div class="max-w-xl w-full flex flex-col items-center space-y-12">
+        <!-- Success Header Section -->
+        <header class="text-center space-y-4">
+          <div class="flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-5xl">check_circle</span>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">We’re ready to analyse your website</h1>
+            <p class="text-lg text-brand-gray dark:text-slate-400">Once connected, your weekly report will include:</p>
+          </div>
+          <p class="text-sm text-brand-gray dark:text-slate-500 italic">Your weekly report setup is ready</p>
+        </header>
+        <!-- Detected Data Card -->
+        <section
+          class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
+          <div class="p-8 space-y-6">
+            <p class="text-[10px] uppercase font-bold tracking-widest text-brand-accent/80 mb-1">Example report
+              preview</p>
+            <p class="text-[10px] tracking-widest text-brand-gray dark:text-slate-500 mb-4">Based on data from your
+              Google Analytics account</p>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold uppercase tracking-widest text-brand-gray dark:text-slate-400">
+                Last 7 days</h3>
+              <span
+                class="px-2 py-1 bg-brand-accent/10 text-brand-accent text-xs font-bold rounded uppercase">Detected</span>
+            </div>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-brand-accent mt-0.5">query_stats</span>
+                <span class="text-brand-dark dark:text-slate-200"><strong>34 enquiries</strong> detected across your
+                  landing pages</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-brand-accent mt-0.5">search</span>
+                <span class="text-brand-dark dark:text-slate-200"><strong>62%</strong> came from Google Search</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-brand-accent mt-0.5">schedule</span>
+                <span class="text-brand-dark dark:text-slate-200">Most activity: <strong>weekdays 9am–2pm</strong></span>
+              </li>
+            </ul>
+            <div class="pt-6 border-t border-slate-100 dark:border-slate-800">
+              <div class="flex items-center gap-3 text-brand-accent font-medium">
+                <span class="material-symbols-outlined">event_upcoming</span>
+                <p>Your first report will arrive Monday at 8:00 AM — you'll see exactly what changed this week</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Explanation Section -->
+        <section class="w-full space-y-6 text-center">
+          <h3 class="text-xl font-bold">What happens now</h3>
+          <div class="grid grid-cols-1 gap-6 text-left max-w-md mx-auto">
+            <div class="flex gap-4 items-center">
+              <div
+                class="flex-none w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-sm text-brand-accent">
+                1</div>
+              <p class="text-brand-gray dark:text-slate-300">We analyse changes each week</p>
+            </div>
+            <div class="flex gap-4 items-center">
+              <div
+                class="flex-none w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-sm text-brand-accent">
+                2</div>
+              <p class="text-brand-gray dark:text-slate-300">We identify the main constraint</p>
+            </div>
+            <div class="flex gap-4 items-center">
+              <div
+                class="flex-none w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-sm text-brand-accent">
+                3</div>
+              <p class="text-brand-gray dark:text-slate-300">You receive one clear action</p>
+            </div>
+          </div>
+        </section>
+        <!-- Payment Section -->
+        <section
+          class="w-full pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col items-center text-center space-y-6">
+          <p class="text-sm text-brand-gray dark:text-slate-400 mb-2">Everything looks correct. You can now start
+            receiving your weekly reports.</p>
+          <div class="space-y-1">
+            <h3 class="text-2xl font-bold">Start your weekly reports</h3>
+            <p class="text-brand-gray dark:text-slate-400">7-day free trial. Cancel anytime.</p>
+            
+          </div>
+          <div
+            class="w-full max-w-sm p-4 bg-slate-100 dark:bg-slate-800 rounded-lg flex justify-between items-center border border-slate-200 dark:border-slate-700">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-brand-gray">package_2</span>
+              <span class="font-bold">Starter</span>
+            </div>
+            <span class="text-lg font-bold">£19<span class="text-sm font-normal text-brand-gray">/month</span></span>
+          </div>
+          <div class="w-full max-w-sm space-y-4">
+
+            <a href="#"
+              id="connect-google"
+              class="w-full inline-block text-center py-4 px-8 bg-brand-accent hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-lg">
+              Connect Google Analytics
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+          
+            <p class="text-xs text-brand-gray dark:text-slate-500">
+              Read-only access. We never modify your website or tracking.
+            </p>
+          
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <!-- Background Decoration -->
+  <div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-40 overflow-hidden">
+    <div class="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-brand-accent/10 rounded-full blur-[120px]"></div>
+    <div class="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-brand-accent/5 rounded-full blur-[100px]"></div>
+  </div>
+  <!-- Footer -->
+  <footer class="site-footer py-12 border-t border-slate-100 bg-white dark:bg-slate-900/50 shrink-0">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+      <a href="index.html"
+        class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark dark:text-slate-200">
+        <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
+          <div class="w-4 h-4 border-2 border-white rounded-full"></div>
+        </div>
+        <span>PearlScout</span>
+      </a>
+      <div class="flex gap-8 text-sm text-brand-gray">
+        <a class="hover:text-brand-accent transition-colors" href="#">Terms</a>
+        <a class="hover:text-brand-accent transition-colors" href="#">Privacy</a>
+        <a class="hover:text-brand-accent transition-colors" href="#">Security</a>
+      </div>
+      <div class="text-sm text-slate-400">© 2026 PearlScout Ltd. All rights reserved.</div>
+    </div>
+  </footer>
+</div>
+<script type="module">
+  const btn = document.getElementById("connect-google")
+
+  btn.addEventListener("click", async (e) => {
+    e.preventDefault()
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin + "/activate.html",
+        scopes: "https://www.googleapis.com/auth/analytics.readonly"
+      }
+    })
+
+    if (error) {
+      alert(error.message)
+      console.error(error)
+    }
+  })
+  </script>
+
+</body>
+
+</html>

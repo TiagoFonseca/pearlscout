@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <title>PearlScout – Know Why Enquiries Changed Every Week</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script data-purpose="tailwind-config">tailwind.config = { theme: { extend: { colors: { brand: { light: "#f8fafc", accent: "#2563eb", dark: "#1e293b", gray: "#64748b" }, primary: "#023E8A", "background-light": "#f5f7f8", "background-dark": "#0f1823" }, fontFamily: { sans: ["Inter", "system-ui", "-apple-system", "sans-serif"], display: "Inter" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" } } } };</script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+
+<body class="bg-white text-brand-dark antialiased">
+  <!-- BEGIN: Navigation -->
+  <nav class="sticky top-0 z-50 border-b border-slate-100 bg-white/80 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark">
+        <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
+          <div class="w-4 h-4 border-2 border-white rounded-full"></div>
+        </div>
+        <span>PearlScout</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-brand-gray">
+        <a class="hover:text-brand-accent transition-colors" href="#how-it-works">How it Works</a>
+        <a class="hover:text-brand-accent transition-colors" href="#pricing">Pricing</a>
+        <a class="px-4 py-2 bg-brand-dark text-white rounded-full hover:bg-black transition-all" href="signup.html">Get My Weekly Explanation</a>
+      </div>
+    </div>
+  </nav>
+  <!-- END: Navigation -->
+  <main>
+    <!-- BEGIN: Hero Section -->
+    <section class="relative pt-24 pb-20 px-6 overflow-hidden">
+      <div class="hero-glow"></div>
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Badge -->
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs font-medium text-brand-gray mb-8">
+          <span class="flex h-2 w-2 rounded-full bg-brand-accent"></span>
+          Works with Google Analytics (GA4)
+        </div>
+        <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8 linear-gradient-text">Know Why Enquiries Changed — Every Week.</h1>
+        <p class="text-xl text-brand-gray mb-10 max-w-2xl mx-auto leading-relaxed">A short weekly explanation of what changed, why it changed, and what to do next.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div class="flex flex-col items-center gap-3">
+            <a href="signup.html"
+              class="w-full sm:w-auto px-8 py-4 bg-brand-accent text-white font-semibold rounded-xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 transition-all text-lg">Get My Weekly Explanation</a>
+            <div class="flex flex-col items-center gap-1">
+              <p class="text-sm text-slate-600">Connects to Google Analytics in under 3 minutes. Read-only.</p>
+              <p class="text-xs text-slate-400 mt-1">We never modify your website or tracking.</p>
+              <p class="text-xs text-slate-400 mt-1">No dashboards. Just one clear answer each week.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Hero Section -->
+    <!-- BEGIN: Problem Section -->
+    <section class="py-24 bg-brand-light">
+      <div class="max-w-6xl mx-auto px-6">
+        <p class="text-brand-accent font-medium mb-4">Some weeks are busy. Some are quiet. And you don’t know why.</p>
+        <div class="max-w-3xl">
+          <h2 class="text-3xl font-bold mb-6">You Don’t Need More Analytics.</h2>
+          <p class="text-lg text-brand-gray leading-relaxed mb-12">When enquiries go up or down, you don’t want charts — you want to know what actually caused it.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="space-y-8">
+            <div class="flex gap-4">
+              <div
+                class="shrink-0 w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500 font-bold">
+                ✕</div>
+              <div>
+                <h4 class="font-semibold mb-1">Too Many Numbers</h4>
+                <p class="text-brand-gray text-sm">Complex dashboards often hide the problems they are meant to reveal.
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div
+                class="shrink-0 w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500 font-bold">
+                ✕</div>
+              <div>
+                <h4 class="font-semibold mb-1">No Clear Reason Why</h4>
+                <p class="text-brand-gray text-sm">Knowing visitors are up is useless if you don't know why bookings are
+                  down.</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-8 bg-white border border-slate-200 rounded-3xl shadow-sm italic text-brand-gray">
+            "Designed for founders who don't have time to dig through analytics."
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Problem Section -->
+    <!-- BEGIN: Solution Section -->
+    <section class="py-24 px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold mb-4">A Weekly Explanation of What Changed</h2>
+          <p class="text-brand-gray">We analyse the data and explain what it means.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Column 1 -->
+          <div class="p-8 rounded-2xl border border-slate-100 bg-white hover:border-brand-accent/20 transition-colors">
+            <div class="w-12 h-12 bg-blue-50 text-brand-accent rounded-lg flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">What changed</h3>
+            <p class="text-brand-gray leading-relaxed">We analyse whether traffic, conversion, or friction likely caused the
+              change.</p>
+          </div>
+          <!-- Column 2 -->
+          <div class="p-8 rounded-2xl border border-slate-100 bg-white hover:border-brand-accent/20 transition-colors">
+            <div class="w-12 h-12 bg-blue-50 text-brand-accent rounded-lg flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">What caused it</h3>
+            <p class="text-brand-gray leading-relaxed">Not visits — actual enquiries and high-intent sources.</p>
+          </div>
+          <!-- Column 3 -->
+          <div class="p-8 rounded-2xl border border-slate-100 bg-white hover:border-brand-accent/20 transition-colors">
+            <div class="w-12 h-12 bg-blue-50 text-brand-accent rounded-lg flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">What to focus on next</h3>
+            <p class="text-brand-gray leading-relaxed">One clear action aligned with the bottleneck.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Solution Section -->
+    <!-- BEGIN: How It Works Section -->
+    <section class="py-24 bg-slate-50" id="how-it-works">
+      <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-16">Setup in 3 Minutes.</h2>
+        <div class="relative">
+          <!-- Connector Line -->
+          <div class="absolute left-8 top-0 bottom-0 w-px bg-slate-200 hidden md:block"></div>
+          <div class="space-y-16">
+            <!-- Step 1 -->
+            <div class="relative flex flex-col md:flex-row gap-8 items-start">
+              <div
+                class="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-white border-2 border-slate-200 items-center justify-center z-10 font-bold text-brand-accent">
+                1</div>
+              <div>
+                <h4 class="text-xl font-bold mb-2">Connect Google Analytics (GA4)</h4>
+                <p class="text-brand-gray">Securely link your Google Analytics account. We only read the metrics needed
+                  for conversion understanding.</p>
+              </div>
+            </div>
+            <!-- Step 2 -->
+            <div class="relative flex flex-col md:flex-row gap-8 items-start">
+              <div
+                class="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-white border-2 border-slate-200 items-center justify-center z-10 font-bold text-brand-accent">
+                2</div>
+              <div>
+                <h4 class="text-xl font-bold mb-2">We identify your main enquiry action</h4>
+                <p class="text-brand-gray">We identify your main enquiry action from your analytics data.</p>
+              </div>
+            </div>
+            <!-- Step 3 -->
+            <div class="relative flex flex-col md:flex-row gap-8 items-start">
+              <div
+                class="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-brand-accent border-2 border-brand-accent items-center justify-center z-10 font-bold text-white shadow-lg shadow-blue-200">
+                3</div>
+              <div>
+                <h4 class="text-xl font-bold mb-2">Receive a short weekly explanation every Monday morning</h4>
+                <p class="text-brand-gray">Every Monday at 8:00 AM, you get a clean, text-based weekly explanation of your
+                  business performance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: How It Works Section -->
+    <!-- BEGIN: Email Mockup Section -->
+    <section class="py-24 px-6 overflow-hidden">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 class="text-3xl font-bold mb-6">You read one email. You understand your week.</h2>
+            <p class="text-lg text-brand-gray mb-8">Clear, written insights you can read in under a minute.</p>
+            <ul class="space-y-4">
+              <li class="flex items-center gap-3 text-brand-dark font-medium"><svg class="w-5 h-5 text-green-500"
+                  fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+                </svg>What changed</li>
+              <li class="flex items-center gap-3 text-brand-dark font-medium"><svg class="w-5 h-5 text-green-500"
+                  fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+                </svg>What caused it</li>
+              <li class="flex items-center gap-3 text-brand-dark font-medium"><svg class="w-5 h-5 text-green-500"
+                  fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+                </svg>What to focus on next</li>
+            </ul>
+          </div>
+          <!-- Email Mockup Card -->
+          <div class="relative">
+            <p class="text-brand-accent font-semibold mb-6 text-center lg:text-left">This is the whole product.</p>
+            <p class="text-xs text-slate-400 mb-4">Example email layout — content will reflect your actual data.</p>
+            <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden transform duration-500">
+              <!-- Email Header -->
+              <div class="bg-slate-50 border-b border-slate-100 px-8 py-6 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="flex gap-1.5">
+                    <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                  </div>
+                  <span class="text-sm font-medium text-slate-500 ml-4">Monday Morning Explanation — Oct 23</span>
+                </div>
+              </div>
+              <!-- Email Content -->
+              <div class="p-8 space-y-8">
+                <div class="space-y-6">
+                  <div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Weekly Summary</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                      Your bookings are <span class="font-bold text-slate-900">down 12%</span> this week despite a 5%
+                      increase in total traffic. The drop is concentrated in your mobile users arriving via LinkedIn.
+                    </p>
+                  </div>
+                  <div class="pt-4">
+                    <div class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-3">The Main Constraint</div>
+                    <div class="p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                      <p class="text-sm text-slate-800">
+                        Mobile Checkout Friction: 65% of users are dropping off at the "Contact Details" step on iOS
+                        devices.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="pt-4">
+                    <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Recommended Actions
+                    </div>
+                    <ol class="space-y-3">
+                      <li class="flex gap-3 text-sm text-slate-700">
+                        <span class="font-semibold">1.</span> Test mobile form field height on Safari.
+                      </li>
+                      <li class="flex gap-3 text-sm text-slate-700">
+                        <span class="font-semibold">2.</span> Pause LinkedIn ad spend on 'Awareness' campaign.
+                      </li>
+                      <li class="flex gap-3 text-sm text-slate-700">
+                        <span class="font-semibold">3.</span> Update FAQ section on pricing page.
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Decorative Elements -->
+            <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-accent/5 rounded-full blur-3xl -z-10"></div>
+            <div class="absolute -top-6 -left-6 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Email Mockup Section -->
+    <!-- BEGIN: Pricing Section -->
+    <section class="py-24 bg-brand-dark text-white" id="pricing">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold mb-4">Simple weekly clarity</h2>
+          <p class="text-slate-400">Choose how deeply you want us to analyse your enquiries.</p>
+        </div>
+        <p class="text-center text-slate-400 mb-12 italic">Most businesses start on Starter and upgrade once they begin
+          improving conversion.</p>
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Starter -->
+          <div class="p-8 rounded-3xl border border-slate-800 bg-slate-900/50 flex flex-col">
+            <div class="text-brand-accent font-bold text-sm mb-1 uppercase tracking-wider">Understand</div>
+            <h3 class="text-lg font-semibold mb-2">For single-location businesses</h3>
+            <div class="text-4xl font-bold mb-6">£19<span class="text-lg font-normal text-slate-500">/mo</span></div>
+            <ul class="space-y-4 text-slate-400 text-sm mb-10 flex-grow">
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Weekly explanation email</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>What changed</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Traffic vs conversion diagnosis</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Basic source breakdown</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>One clear focus action</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Email support</li>
+            </ul>
+            <a href="signup.html"
+              class="w-full py-3 rounded-xl border border-slate-700 hover:bg-slate-800 transition-colors text-center">Start
+              Free Trial</a>
+          </div>
+          <!-- Growth -->
+          <div
+            class="p-8 rounded-3xl border-2 border-brand-accent bg-slate-900 flex flex-col relative transform md:-translate-y-4">
+            <div
+              class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-accent text-xs font-bold rounded-full">
+              MOST POPULAR</div>
+            <div class="text-brand-accent font-bold text-sm mb-1 uppercase tracking-wider">Improve</div>
+            <h3 class="text-lg font-semibold mb-2">For growing businesses</h3>
+            <div class="text-4xl font-bold mb-6">£39<span class="text-lg font-normal text-slate-500">/mo</span></div>
+            <ul class="space-y-4 text-slate-300 text-sm mb-10 flex-grow">
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Everything in Starter</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Detailed source performance</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Funnel stage analysis</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Prioritised recommended actions</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Monthly performance summary</li>
+            </ul>
+            <a href="signup.html"
+              class="w-full py-3 rounded-xl bg-brand-accent text-white font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20  text-center">Start
+              Free Trial</a>
+          </div>
+          <!-- Pro -->
+          <div class="p-8 rounded-3xl border border-slate-800 bg-slate-900/50 flex flex-col">
+            <div class="text-brand-accent font-bold text-sm mb-1 uppercase tracking-wider">Scale</div>
+            <h3 class="text-lg font-semibold mb-2">For agencies &amp; multi-location businesses</h3>
+            <div class="text-4xl font-bold mb-6">£79<span class="text-lg font-normal text-slate-500">/mo</span></div>
+            <ul class="space-y-4 text-slate-400 text-sm mb-10 flex-grow">
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Everything in Growth</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Multiple websites or locations</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Historical report archive</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Comparative trend insights</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-accent" fill="currentColor"
+                  viewbox="0 0 20 20">
+                  <path
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
+                  </path>
+                </svg>Priority support</li>
+            </ul>
+            <a href="signup.html"
+              class="w-full py-3 rounded-xl border border-slate-700 hover:bg-slate-800 transition-colors text-center">Start
+              Free Trial</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END: Pricing Section -->
+    <!-- BEGIN: Final CTA -->
+    <section class="py-24 px-6 text-center">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6">Understand your business every week.</h2>
+        <p class="text-brand-gray mb-10">Connect once — then just read the email.</p>
+        <a href="signup.html"
+          class="px-10 py-5 bg-brand-accent text-white font-bold rounded-2xl hover:scale-105 transition-transform text-xl">Start My Weekly Explanation</a>
+      </div>
+    </section>
+    <!-- END: Final CTA -->
+  </main>
+  <!-- BEGIN: Footer -->
+  <footer class="site-footer py-12 border-t border-slate-100 bg-white">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+      <a href="index.html" class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark">
+        <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
+          <div class="w-4 h-4 border-2 border-white rounded-full"></div>
+        </div>
+        <span>PearlScout</span>
+      </a>
+      <div class="flex gap-8 text-sm text-brand-gray">
+        <a class="hover:text-brand-accent transition-colors" href="#">Terms</a>
+        <a class="hover:text-brand-accent transition-colors" href="#">Privacy</a>
+        <a class="hover:text-brand-accent transition-colors" href="#">Security</a>
+      </div>
+      <div class="text-sm text-slate-400">© 2026 PearlScout Ltd. All rights reserved.</div>
+    </div>
+  </footer>
+  <!-- END: Footer -->
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+    
+    const supabase = createClient(
+      "https://ysfmxpubcyrkxdtzubvp.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzZm14cHViY3lya3hkdHp1YnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwODMsImV4cCI6MjA4NzE4NDA4M30.gbJ39R8Dw5jCbGCZMXw8cCsD3y9UiiedPcxwHG0-r-E"
+
+    )
+    
+    // 1️⃣ If user arrived from email link, Supabase processes tokens automatically
+    const { data: { session } } = await supabase.auth.getSession()
+    
+    // Already logged in → go to activate
+    if (session) {
+      window.location.href = "/activate.html"
+    }
+    
+    // 2️⃣ Listen for login AFTER email confirmation
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        window.location.href = "/activate.html"
+      }
+    })
+    </script>
+</body>
+
+</html>

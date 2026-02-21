@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <title>Sign Up - PearlScout</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script data-purpose="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { brand: { light: "#f8fafc", accent: "#2563eb", dark: "#1e293b", gray: "#64748b" }, primary: "#023E8A", "background-light": "#f5f7f8", "background-dark": "#0f1823" }, fontFamily: { sans: ["Inter", "system-ui", "-apple-system", "sans-serif"], display: "Inter" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" } } } };</script>
+    <link rel="stylesheet" href="assets/styles.css" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display antialiased">
+    <!-- Header -->
+    <header class="w-full border-b border-slate-100 bg-white/80 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark">
+                <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
+                    <div class="w-4 h-4 border-2 border-white rounded-full"></div>
+                </div>
+                <span>PearlScout</span>
+            </a>
+            <a class="text-brand-accent hover:text-brand-accent/80 text-sm font-semibold transition-colors" href="#">
+                Already have an account? Sign in
+            </a>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-[480px]">
+            <!-- Main Signup Card -->
+            <div
+                id="signup-card"
+                class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm p-8 md:p-10">
+                <div class="text-center mb-8">
+                    <h2 class="text-slate-900 dark:text-slate-100 text-2xl md:text-3xl font-bold mb-2 leading-tight">
+                        Create your account</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mt-2 max-w-[320px] mx-auto">You’ll receive a
+                        short weekly report explaining what changed and what to do next.</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-4">Takes about 3 minutes</p>
+                </div>
+                <form id="signup-form" class="space-y-5" onsubmit="return false;">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                            for="name">Name</label>
+                        <input
+                            class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 text-sm"
+                            id="name" name="name" placeholder="Jane Doe" type="text" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                            for="email">Email</label>
+                        <input
+                            class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 text-sm"
+                            id="email" name="email" placeholder="jane@company.com" type="email" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                            for="password">Password</label>
+                        <input
+                            class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-slate-400 text-sm"
+                            id="password" name="password" placeholder="Create a password" type="password" />
+                    </div>
+                    <!-- this button should trigger the supabase sign up function and then redirect to the activate.html page where they can connect their analytics -->
+                        <button 
+                            type="submit" 
+                            class="w-full inline-block text-center px-8 py-4 bg-brand-accent text-white font-semibold rounded-xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 transition-all text-lg mt-2">Connect Analytics</button>
+                    </form>
+                <div class="relative my-8">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-200 dark:border-slate-800"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs uppercase">
+                        <span class="bg-white dark:bg-slate-900 px-3 text-slate-500 font-medium">or</span>
+                    </div>
+                </div>
+                <button
+                    class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold py-3 px-4 rounded-lg transition-all"><img
+                        alt="" class="w-5 h-5" data-alt="Google"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVYnKgI78_PsXgH179Y2AAArI7F-_Obm3660BZhKCcRV_HKofNy_62KT8nZgVg7ugpTbscHCTqk61TWhviGlll_4XrK50bpaWf8gTEib-ImckAQJzainabxrjB649FC3G895p1gVQGPfn5Z9f5DnYbuLEEENJbJXStd5gonZ-wBUKrCuOGLmJID_HHaQ6VXQf6s1ufOFOFzwu0i--JYq3pae3W2h0qcBs3DDEDLMqXbRm4YTL7fdj8ex3rBiFwYZel68DvYVBYbFg" />
+                    Use Google instead</button>
+                <p class="mt-6 text-[12px] text-center text-slate-500 dark:text-slate-400 leading-relaxed px-4">We only
+                    read your analytics data — we never change your site. <br />You can disconnect anytime.</p>
+             </div>    <!-- end signup card -->
+             <div id="email-sent" class="hidden text-center space-y-6 py-10">
+                <h2 class="text-2xl font-bold">Check your email</h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-[300px] mx-auto">
+                  We’ve sent you a confirmation link.
+                  <br><br>
+                  Click it to continue connecting your analytics.
+                </p>
+              </div>
+            <!-- Steps Section -->
+            <div
+                class="mt-6 bg-slate-100/50 dark:bg-slate-800/30 border border-slate-200/60 dark:border-slate-800/60 rounded-xl p-6">
+                <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-primary">info</span>
+                    What happens next?
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold mt-0.5 shrink-0">
+                            1</div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400">Connect your Google Analytics account</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold mt-0.5 shrink-0">
+                            2</div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400">We detect how people contact your business
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div
+                            class="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold mt-0.5 shrink-0">
+                            3</div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 font-medium">Your first report arrives in
+                            your inbox Monday morning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="site-footer py-12 border-t border-slate-100 bg-white dark:bg-slate-900/50">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <a href="index.html" class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark dark:text-slate-200">
+                <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
+                    <div class="w-4 h-4 border-2 border-white rounded-full"></div>
+                </div>
+                <span>PearlScout</span>
+            </a>
+            <div class="flex gap-8 text-sm text-brand-gray">
+                <a class="hover:text-brand-accent transition-colors" href="#">Terms</a>
+                <a class="hover:text-brand-accent transition-colors" href="#">Privacy</a>
+                <a class="hover:text-brand-accent transition-colors" href="#">Security</a>
+            </div>
+            <div class="text-sm text-slate-400">© 2026 PearlScout Ltd. All rights reserved.</div>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script type="module">
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+        
+        const supabaseClient = createClient(
+          "https://ysfmxpubcyrkxdtzubvp.supabase.co",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzZm14cHViY3lya3hkdHp1YnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwODMsImV4cCI6MjA4NzE4NDA4M30.gbJ39R8Dw5jCbGCZMXw8cCsD3y9UiiedPcxwHG0-r-E"        );
+        
+        const form = document.getElementById("signup-form");
+        const signupCard = document.getElementById("signup-card");
+        const emailSent = document.getElementById("email-sent");
+        
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+        
+          const name = document.getElementById("name").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+        
+          const { error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { name },
+              emailRedirectTo: "https://pearlscout.vercel.app/activate.html"
+            }
+          });
+        
+          if (error) {
+            alert(error.message);
+            return;
+          }
+        
+          // User now already authenticated
+        window.location.href = "activate.html";
+        
+        // show confirmation UI instead of redirect
+        //   signupCard.classList.add("hidden");
+        //   emailSent.classList.remove("hidden");
+        });
+        </script>
+</body>
+
+</html>
