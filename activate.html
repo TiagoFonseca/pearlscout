@@ -17,31 +17,45 @@
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
     
-    window.supabase = createClient(
+    const supabase = createClient(
       "https://ysfmxpubcyrkxdtzubvp.supabase.co",
-      "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzZm14cHViY3lya3hkdHp1YnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwODMsImV4cCI6MjA4NzE4NDA4M30"
+      "YOUR_ANON_KEY"
     )
     
-    // 1. Check session
-    const { data: { session } } = await supabase.auth.getSession()
+    // Wait until Supabase loads session from storage
+    async function requireAuth() {
     
-    if (!session) {
-      window.location.href = "signup.html"
-      throw new Error("No session")
+      let attempts = 0
+      let session = null
+    
+      while (!session && attempts < 10) {
+        const { data } = await supabase.auth.getSession()
+        session = data.session
+    
+        if (!session) {
+          await new Promise(r => setTimeout(r, 200))
+          attempts++
+        }
+      }
+    
+      if (!session) {
+        window.location.href = "/signup.html"
+        return
+      }
+    
+      // Now we safely have a user
+      const { data: { user } } = await supabase.auth.getUser()
+    
+      await supabase.from("profiles").upsert({
+        id: user.id,
+        email: user.email,
+        name: user.user_metadata?.name ?? null
+      })
+    
+      document.body.classList.remove("invisible")
     }
     
-    // 2. Get user
-    const { data: { user } } = await supabase.auth.getUser()
-    
-    // 3. Ensure profile exists
-    await supabase.from("profiles").upsert({
-      id: user.id,
-      email: user.email,
-      name: user.user_metadata?.name ?? null
-    })
-    
-    // 4. Reveal page
-    document.body.classList.remove("invisible")
+    requireAuth()
     </script>
     
   <!-- Header -->
