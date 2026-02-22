@@ -145,42 +145,45 @@
     <script type="module">
         import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
         
-        const supabaseClient = createClient(
+        const supabase = createClient(
           "https://ysfmxpubcyrkxdtzubvp.supabase.co",
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzZm14cHViY3lya3hkdHp1YnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwODMsImV4cCI6MjA4NzE4NDA4M30.gbJ39R8Dw5jCbGCZMXw8cCsD3y9UiiedPcxwHG0-r-E"        );
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzZm14cHViY3lya3hkdHp1YnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwODMsImV4cCI6MjA4NzE4NDA4M30.gbJ39R8Dw5jCbGCZMXw8cCsD3y9UiiedPcxwHG0-r-E"        )
         
-        const form = document.getElementById("signup-form");
-        const signupCard = document.getElementById("signup-card");
-        const emailSent = document.getElementById("email-sent");
+        const form = document.getElementById("signup-form")
         
         form.addEventListener("submit", async (e) => {
-          e.preventDefault();
+          e.preventDefault()
         
-          const name = document.getElementById("name").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const password = document.getElementById("password").value.trim();
+          const name = document.getElementById("name").value.trim()
+          const email = document.getElementById("email").value.trim()
+          const password = document.getElementById("password").value.trim()
         
-          const { error } = await supabaseClient.auth.signUp({
+          // 1️⃣ Create account
+          const { error: signupError } = await supabase.auth.signUp({
             email,
             password,
-            options: {
-              data: { name },
-              emailRedirectTo: "https://pearlscout.vercel.app/activate.html"
-            }
-          });
+            options: { data: { name } }
+          })
         
-          if (error) {
-            alert(error.message);
-            return;
+          if (signupError) {
+            alert(signupError.message)
+            return
           }
         
-          // User now already authenticated
-        window.location.href = "activate.html";
+          // 2️⃣ IMPORTANT — log the user in
+          const { error: loginError } = await supabase.auth.signInWithPassword({
+            email,
+            password
+          })
         
-        // show confirmation UI instead of redirect
-        //   signupCard.classList.add("hidden");
-        //   emailSent.classList.remove("hidden");
-        });
+          if (loginError) {
+            alert(loginError.message)
+            return
+          }
+        
+          // 3️⃣ Now session exists
+          window.location.href = "/activate.html"
+        })
         </script>
 </body>
 
