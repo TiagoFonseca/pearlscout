@@ -143,11 +143,9 @@
     </footer>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script type="module">
-        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+        import { guard, supabase } from "/guard.js"
         
-        const supabase = createClient(
-          "https://ysfmxpubcyrkxdtzubvp.supabase.co",
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzZm14cHViY3lya3hkdHp1YnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwODMsImV4cCI6MjA4NzE4NDA4M30.gbJ39R8Dw5jCbGCZMXw8cCsD3y9UiiedPcxwHG0-r-E"        )
+        await guard("guestOnly")
         
         const form = document.getElementById("signup-form")
         
@@ -158,30 +156,27 @@
           const email = document.getElementById("email").value.trim()
           const password = document.getElementById("password").value.trim()
         
-          // 1️⃣ Create account
-          const { error: signupError } = await supabase.auth.signUp({
+          if (!email || !password) {
+            alert("Please enter email and password")
+            return
+          }
+        
+          const { error } = await supabase.auth.signUp({
             email,
             password,
-            options: { data: { name } }
+            options: {
+              data: { name }
+            }
           })
         
-          if (signupError) {
-            alert(signupError.message)
+          console.log("SIGNUP ERROR:", error)
+        
+          if (error) {
+            alert(error.message)
             return
           }
         
-          // 2️⃣ IMPORTANT — log the user in
-          const { error: loginError } = await supabase.auth.signInWithPassword({
-            email,
-            password
-          })
-        
-          if (loginError) {
-            alert(loginError.message)
-            return
-          }
-        
-          // 3️⃣ Now session exists
+          // Guard will handle auth state on next page
           window.location.href = "/activate.html"
         })
         </script>

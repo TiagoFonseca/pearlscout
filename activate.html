@@ -13,52 +13,33 @@
 </head>
 
 <body
-  class="invisible bg-background-light dark:bg-background-dark text-brand-dark dark:text-slate-100 font-display antialiased min-h-screen flex flex-col">
+  class=" bg-background-light dark:bg-background-dark text-brand-dark dark:text-slate-100 font-display antialiased min-h-screen flex flex-col">
   <script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-    
-    const supabase = createClient(
-      "https://ysfmxpubcyrkxdtzubvp.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzZm14cHViY3lya3hkdHp1YnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwODMsImV4cCI6MjA4NzE4NDA4M30.gbJ39R8Dw5jCbGCZMXw8cCsD3y9UiiedPcxwHG0-r-E"    )
-    
-    // Wait until Supabase loads session from storage
-    async function requireAuth() {
-    
-      let attempts = 0
-      let session = null
-    
-      while (!session && attempts < 10) {
-        const { data } = await supabase.auth.getSession()
-        session = data.session
-    
-        if (!session) {
-          await new Promise(r => setTimeout(r, 200))
-          attempts++
-        }
-      }
-    
-      if (!session) {
-        window.location.href = "/signup.html"
-        return
-      }
-    
-      // Now we safely have a user
+    import { guard, supabase } from "/guard.js"
+
+    await guard("app")
+
+    // page is allowed → show immediately
+    document.body.style.display = "block"
+
+    init()
+
+    async function init() {
       const { data: { user } } = await supabase.auth.getUser()
-    
+
+      // safety: create profile if missing (rare race condition)
       await supabase.from("profiles").upsert({
         id: user.id,
         email: user.email,
         name: user.user_metadata?.name ?? null
       })
-    
-      document.body.classList.remove("invisible")
+
+      console.log("Activate page ready")
     }
-    
-    requireAuth()
-    </script>
-    
+  </script>
+
+
   <!-- Header -->
-  <div id="protected-content" style="display:none;">
   <header class="w-full border-b border-slate-100 bg-white/80 dark:bg-slate-900/50 backdrop-blur-md shrink-0">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       <a href="index.html"
@@ -113,7 +94,8 @@
               </li>
               <li class="flex items-start gap-3">
                 <span class="material-symbols-outlined text-brand-accent mt-0.5">schedule</span>
-                <span class="text-brand-dark dark:text-slate-200">Most activity: <strong>weekdays 9am–2pm</strong></span>
+                <span class="text-brand-dark dark:text-slate-200">Most activity: <strong>weekdays
+                    9am–2pm</strong></span>
               </li>
             </ul>
             <div class="pt-6 border-t border-slate-100 dark:border-slate-800">
@@ -156,7 +138,7 @@
           <div class="space-y-1">
             <h3 class="text-2xl font-bold">Start your weekly reports</h3>
             <p class="text-brand-gray dark:text-slate-400">7-day free trial. Cancel anytime.</p>
-            
+
           </div>
           <div
             class="w-full max-w-sm p-4 bg-slate-100 dark:bg-slate-800 rounded-lg flex justify-between items-center border border-slate-200 dark:border-slate-700">
@@ -168,17 +150,16 @@
           </div>
           <div class="w-full max-w-sm space-y-4">
 
-            <a href="#"
-              id="connect-google"
+            <a href="#" id="connect-google"
               class="w-full inline-block text-center py-4 px-8 bg-brand-accent hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 text-lg">
               Connect Google Analytics
               <span class="material-symbols-outlined">arrow_forward</span>
             </a>
-          
+
             <p class="text-xs text-brand-gray dark:text-slate-500">
               Read-only access. We never modify your website or tracking.
             </p>
-          
+
           </div>
         </section>
       </div>
@@ -207,26 +188,27 @@
       <div class="text-sm text-slate-400">© 2026 PearlScout Ltd. All rights reserved.</div>
     </div>
   </footer>
-</div>
-<script type="module">
-  const btn = document.getElementById("connect-google")
+  <script type="module">
+    import { supabase } from "/guard.js"
 
-  btn.addEventListener("click", async (e) => {
-    e.preventDefault()
+    const btn = document.getElementById("connect-google")
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: window.location.origin + "/activate.html",
-        scopes: "https://www.googleapis.com/auth/analytics.readonly"
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault()
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          scopes: "https://www.googleapis.com/auth/analytics.readonly",
+          redirectTo: `${window.location.origin}/auth/callback.html`
+        }
+      })
+
+      if (error) {
+        alert(error.message)
+        console.error(error)
       }
     })
-
-    if (error) {
-      alert(error.message)
-      console.error(error)
-    }
-  })
   </script>
 
 </body>
