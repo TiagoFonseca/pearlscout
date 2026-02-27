@@ -1,12 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connected</title>
 </head>
+
 <body>
     <h1>Google Analytics connected</h1>
     <p>Your weekly explanation will arrive Monday morning.</p>
+
+    <script type="module">
+        import { guard, supabase } from "/guard.js";
+
+        await guard("connected");
+        async function init() {
+            try {
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError || !session) {
+                    console.error("No session found!");
+                    return;
+                }
+
+                const res = await fetch('/api/ga/properties', {
+                    headers: {
+                        Authorization: `Bearer ${session.access_token}`
+                    }
+                });
+
+                const data = await res.json();
+                console.log("GA properties:", data.properties);
+
+                if (data.properties && data.properties.length === 1) {
+                    console.log("Only one property detected. Auto-selecting:", data.properties[0].display_name);
+                    // Logic to auto-select will go here later
+                } else if (data.properties && data.properties.length > 1) {
+                    console.log("Multiple properties detected. Need to show UI.");
+                    // Logic to show UI will go here later
+                }
+            } catch (err) {
+                console.error("Error fetching GA properties:", err);
+            }
+        }
+
+        init();
+    </script>
 </body>
+
 </html>

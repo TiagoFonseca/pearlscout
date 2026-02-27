@@ -8,7 +8,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <title>PearlScout – Know Why Enquiries Changed Every Week</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script data-purpose="tailwind-config">tailwind.config = { theme: { extend: { colors: { brand: { light: "#f8fafc", accent: "#2563eb", dark: "#1e293b", gray: "#64748b" }, primary: "#023E8A", "background-light": "#f5f7f8", "background-dark": "#0f1823" }, fontFamily: { sans: ["Inter", "system-ui", "-apple-system", "sans-serif"], display: "Inter" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" } } } };</script>
+  <script
+    data-purpose="tailwind-config">tailwind.config = { theme: { extend: { colors: { brand: { light: "#f8fafc", accent: "#2563eb", dark: "#1e293b", gray: "#64748b" }, primary: "#023E8A", "background-light": "#f5f7f8", "background-dark": "#0f1823" }, fontFamily: { sans: ["Inter", "system-ui", "-apple-system", "sans-serif"], display: "Inter" }, borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" } } } };</script>
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 
@@ -16,7 +17,8 @@
   <!-- BEGIN: Navigation -->
   <nav class="sticky top-0 z-50 border-b border-slate-100 bg-white/80 backdrop-blur-md">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="index.html" class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark">
+      <a href="index.html"
+        class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark">
         <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
           <div class="w-4 h-4 border-2 border-white rounded-full"></div>
         </div>
@@ -25,7 +27,11 @@
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-brand-gray">
         <a class="hover:text-brand-accent transition-colors" href="#how-it-works">How it Works</a>
         <a class="hover:text-brand-accent transition-colors" href="#pricing">Pricing</a>
-        <a class="px-4 py-2 bg-brand-dark text-white rounded-full hover:bg-black transition-all" href="signup.html">Get My Weekly Explanation</a>
+        <button id="nav-cta" class="px-4 py-2 bg-brand-dark text-white rounded-full hover:bg-black transition-all">Get
+          My Weekly Explanation</button>
+        <a id="nav-account" href="/activate.html"
+          class="px-4 py-2 bg-brand-accent text-white rounded-full hover:bg-blue-700 transition-all hidden">Go to my
+          account</a>
       </div>
     </div>
   </nav>
@@ -41,17 +47,40 @@
           <span class="flex h-2 w-2 rounded-full bg-brand-accent"></span>
           Works with Google Analytics (GA4)
         </div>
-        <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8 linear-gradient-text">Know Why Enquiries Changed — Every Week.</h1>
-        <p class="text-xl text-brand-gray mb-10 max-w-2xl mx-auto leading-relaxed">A short weekly explanation of what changed, why it changed, and what to do next.</p>
+        <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8 linear-gradient-text">Know Why Enquiries Changed —
+          Every Week.</h1>
+        <p class="text-xl text-brand-gray mb-10 max-w-2xl mx-auto leading-relaxed">A short weekly explanation of what
+          changed, why it changed, and what to do next.</p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <div class="flex flex-col items-center gap-3">
-            <a href="signup.html"
-              class="w-full sm:w-auto px-8 py-4 bg-brand-accent text-white font-semibold rounded-xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 transition-all text-lg">Get My Weekly Explanation</a>
+          <div id="hero-guest" class="flex flex-col items-center gap-3">
+            <button id="cta-google"
+              class="w-full sm:w-auto px-8 py-4 bg-brand-accent text-white font-semibold rounded-xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 transition-all text-lg flex items-center gap-3">
+              <svg class="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M44.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.4c-.5 2.6-2 4.9-4.1 6.4v5.3h6.6c3.9-3.6 6.6-8.9 6.6-15.7z"
+                  fill="#fff" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M24 45c5.6 0 10.4-1.9 13.8-5l-6.6-5.3c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.8-8.8H5.4v5.5C8.8 39.8 16 45 24 45z"
+                  fill="#fff" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M12.2 27.9a12.3 12.3 0 010-7.8V14.6H5.4A20 20 0 003 24c0 3.2.8 6.3 2.4 9l6.8-5.1z" fill="#fff" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M24 12.4c3.1 0 5.8 1.1 8 3.1l5.9-5.9C34.3 6.1 29.6 4 24 4 16 4 8.8 9.2 5.4 15.6l6.8 5.4c1.6-5.1 6.3-8.6 11.8-8.6z"
+                  fill="#fff" />
+              </svg>
+              Continue with Google
+            </button>
             <div class="flex flex-col items-center gap-1">
               <p class="text-sm text-slate-600">Connects to Google Analytics in under 3 minutes. Read-only.</p>
               <p class="text-xs text-slate-400 mt-1">We never modify your website or tracking.</p>
-              <p class="text-xs text-slate-400 mt-1">No dashboards. Just one clear answer each week.</p>
+              <a href="#" id="signin-google" class="text-xs text-brand-accent mt-1 hover:underline">Already a member?
+                Sign in</a>
             </div>
+          </div>
+          <div id="hero-logged" class="hidden flex-col items-center gap-3">
+            <a id="hero-account-link" href="/activate.html"
+              class="w-full sm:w-auto px-8 py-4 bg-brand-accent text-white font-semibold rounded-xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 transition-all text-lg">Go
+              to my account →</a>
           </div>
         </div>
       </div>
@@ -63,7 +92,8 @@
         <p class="text-brand-accent font-medium mb-4">Some weeks are busy. Some are quiet. And you don’t know why.</p>
         <div class="max-w-3xl">
           <h2 class="text-3xl font-bold mb-6">You Don’t Need More Analytics.</h2>
-          <p class="text-lg text-brand-gray leading-relaxed mb-12">When enquiries go up or down, you don’t want charts — you want to know what actually caused it.</p>
+          <p class="text-lg text-brand-gray leading-relaxed mb-12">When enquiries go up or down, you don’t want charts —
+            you want to know what actually caused it.</p>
         </div>
         <div class="grid md:grid-cols-2 gap-12 items-center">
           <div class="space-y-8">
@@ -113,7 +143,8 @@
               </svg>
             </div>
             <h3 class="text-xl font-bold mb-3">What changed</h3>
-            <p class="text-brand-gray leading-relaxed">We analyse whether traffic, conversion, or friction likely caused the
+            <p class="text-brand-gray leading-relaxed">We analyse whether traffic, conversion, or friction likely caused
+              the
               change.</p>
           </div>
           <!-- Column 2 -->
@@ -180,7 +211,8 @@
                 3</div>
               <div>
                 <h4 class="text-xl font-bold mb-2">Receive a short weekly explanation every Monday morning</h4>
-                <p class="text-brand-gray">Every Monday at 8:00 AM, you get a clean, text-based weekly explanation of your
+                <p class="text-brand-gray">Every Monday at 8:00 AM, you get a clean, text-based weekly explanation of
+                  your
                   business performance.</p>
               </div>
             </div>
@@ -325,9 +357,9 @@
                   </path>
                 </svg>Email support</li>
             </ul>
-            <a href="signup.html"
+            <button onclick="continueWithGoogle()"
               class="w-full py-3 rounded-xl border border-slate-700 hover:bg-slate-800 transition-colors text-center">Start
-              Free Trial</a>
+              Free Trial</button>
           </div>
           <!-- Growth -->
           <div
@@ -370,9 +402,9 @@
                   </path>
                 </svg>Monthly performance summary</li>
             </ul>
-            <a href="signup.html"
-              class="w-full py-3 rounded-xl bg-brand-accent text-white font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20  text-center">Start
-              Free Trial</a>
+            <button onclick="continueWithGoogle()"
+              class="w-full py-3 rounded-xl bg-brand-accent text-white font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 text-center">Start
+              Free Trial</button>
           </div>
           <!-- Pro -->
           <div class="p-8 rounded-3xl border border-slate-800 bg-slate-900/50 flex flex-col">
@@ -411,9 +443,9 @@
                   </path>
                 </svg>Priority support</li>
             </ul>
-            <a href="signup.html"
+            <button onclick="continueWithGoogle()"
               class="w-full py-3 rounded-xl border border-slate-700 hover:bg-slate-800 transition-colors text-center">Start
-              Free Trial</a>
+              Free Trial</button>
           </div>
         </div>
       </div>
@@ -424,8 +456,9 @@
       <div class="max-w-2xl mx-auto">
         <h2 class="text-3xl font-bold mb-6">Understand your business every week.</h2>
         <p class="text-brand-gray mb-10">Connect once — then just read the email.</p>
-        <a href="signup.html"
-          class="px-10 py-5 bg-brand-accent text-white font-bold rounded-2xl hover:scale-105 transition-transform text-xl">Start My Weekly Explanation</a>
+        <button onclick="continueWithGoogle()"
+          class="px-10 py-5 bg-brand-accent text-white font-bold rounded-2xl hover:scale-105 transition-transform text-xl">Start
+          My Weekly Explanation</button>
       </div>
     </section>
     <!-- END: Final CTA -->
@@ -433,7 +466,8 @@
   <!-- BEGIN: Footer -->
   <footer class="site-footer py-12 border-t border-slate-100 bg-white">
     <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-      <a href="index.html" class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark">
+      <a href="index.html"
+        class="site-logo flex items-center gap-2 font-semibold text-lg tracking-tight text-brand-dark">
         <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
           <div class="w-4 h-4 border-2 border-white rounded-full"></div>
         </div>
@@ -449,12 +483,50 @@
   </footer>
   <!-- END: Footer -->
   <script type="module">
-    import { guard } from "/guard.js"
+    import { guard, supabase } from "/guard.js"
     await guard("public")
-    
-    
-  
-    </script>
+
+    // Expose for inline onclick handlers in pricing section
+    window.continueWithGoogle = continueWithGoogle
+
+    async function continueWithGoogle() {
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/activate.html`
+        }
+      })
+    }
+
+    document.getElementById("cta-google").onclick = continueWithGoogle
+    document.getElementById("signin-google").onclick = (e) => { e.preventDefault(); continueWithGoogle() }
+    document.getElementById("nav-cta").onclick = continueWithGoogle
+
+    // UX polish: if already logged in, swap CTAs
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session) {
+      // Determine correct account destination
+      const { data: gc } = await supabase
+        .from("google_connections")
+        .select("user_id")
+        .eq("user_id", session.user.id)
+        .maybeSingle()
+      const dest = gc ? "/connected.html" : "/activate.html"
+
+      // Nav
+      document.getElementById("nav-cta").classList.add("hidden")
+      const navAccount = document.getElementById("nav-account")
+      navAccount.href = dest
+      navAccount.classList.remove("hidden")
+
+      // Hero
+      document.getElementById("hero-guest").classList.add("hidden")
+      const heroLogged = document.getElementById("hero-logged")
+      document.getElementById("hero-account-link").href = dest
+      heroLogged.classList.remove("hidden")
+      heroLogged.classList.add("flex")
+    }
+  </script>
 </body>
 
 </html>

@@ -15,27 +15,12 @@
 <body
   class=" bg-background-light dark:bg-background-dark text-brand-dark dark:text-slate-100 font-display antialiased min-h-screen flex flex-col">
   <script type="module">
-    import { guard, supabase } from "/guard.js"
+    import { guard } from "/guard.js"
 
     await guard("app")
 
     // page is allowed → show immediately
     document.body.style.display = "block"
-
-    init()
-
-    async function init() {
-      const { data: { user } } = await supabase.auth.getUser()
-
-      // safety: create profile if missing (rare race condition)
-      await supabase.from("profiles").upsert({
-        id: user.id,
-        email: user.email,
-        name: user.user_metadata?.name ?? null
-      })
-
-      console.log("Activate page ready")
-    }
   </script>
 
 
@@ -200,9 +185,15 @@
         provider: "google",
         options: {
           scopes: "https://www.googleapis.com/auth/analytics.readonly",
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent"
+          },
           redirectTo: `${window.location.origin}/auth/callback.html`
         }
       })
+
+
 
       if (error) {
         alert(error.message)
