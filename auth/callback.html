@@ -29,7 +29,7 @@
         user_id: session.user.id,
         access_token: providerToken,
         refresh_token: refreshToken
-      })
+      }, { onConflict: 'user_id' })
     
       console.log("Saved ✔")
     

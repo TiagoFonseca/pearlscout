@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="" lang="en">
 
 <head>
   <meta charset="utf-8" />
@@ -21,6 +21,21 @@
 
     // page is allowed → show immediately
     document.body.style.display = "block"
+
+    // Dark mode toggle
+    const root = document.documentElement;
+    if (localStorage.getItem('theme') === 'dark') {
+      root.classList.add('dark');
+    }
+
+    const toggle = document.getElementById('themeToggle');
+    toggle?.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.setItem(
+        'theme',
+        root.classList.contains('dark') ? 'dark' : 'light'
+      );
+    });
   </script>
 
 
@@ -34,6 +49,9 @@
         </div>
         <span>PearlScout</span>
       </a>
+      <button id="themeToggle" class="text-sm text-brand-gray dark:text-slate-400 hover:text-brand-accent ml-auto">
+        🌙
+      </button>
     </div>
   </header>
   <!-- Main Content Container -->

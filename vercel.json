@@ -1,6 +1,12 @@
 {
-    "routes": [
-      { "handle": "filesystem" },
-      { "src": "/(.*)", "dest": "/index.html" }
-    ]
-  }
+  "devCommand": null,
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

@@ -19,9 +19,14 @@ export default async function handler(req, res) {
             .from('google_connections')
             .select('refresh_token')
             .eq('user_id', user.id)
-            .single()
+            .limit(1)
+            .maybeSingle()
 
-        if (!connection) return res.status(400).json({ error: 'No Google connection' })
+        if (!connection) {
+            return res.status(200).json({
+                reconnectRequired: true
+            })
+        }
 
         // Exchange refresh token for new access token
         const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
@@ -36,6 +41,13 @@ export default async function handler(req, res) {
         })
 
         const tokenData = await tokenRes.json()
+
+        if (!tokenData.access_token) {
+            return res.status(200).json({
+                reconnectRequired: true
+            })
+        }
+
         const googleAccessToken = tokenData.access_token
 
         // Get GA4 properties
@@ -50,16 +62,25 @@ export default async function handler(req, res) {
 
         const gaData = await gaRes.json()
 
+        if (!gaData.accountSummaries) {
+            return res.status(200).json({
+                properties: []
+            })
+        }
+
         const properties = (gaData.accountSummaries || []).flatMap(acc =>
             (acc.propertySummaries || []).map(p => ({
-                property_id: p.property,
+                property_id: p.property.replace('properties/', ''),
                 display_name: p.displayName
             }))
         )
 
+        console.log('[GA properties]', properties)
+
         res.status(200).json({ properties })
 
     } catch (e) {
-        res.status(500).json({ error: 'Server error', details: e.message })
+        console.error('[ga-properties] error:', e)
+        res.status(500).json({ error: 'PROPERTIES_FETCH_FAILED' })
     }
 }

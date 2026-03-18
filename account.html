@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PearlScout - Account</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script data-purpose="tailwind-config">
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: "#f8fafc",
+                            accent: "#2563eb",
+                            dark: "#1e293b",
+                            gray: "#64748b"
+                        },
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1823"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+                        display: "Inter"
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+
+<body
+    class="bg-brand-light text-brand-dark dark:bg-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col items-center py-12 px-6">
+    <div class="max-w-2xl w-full">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8 w-full">
+            <h1 class="text-3xl font-bold tracking-tight">Account Settings</h1>
+            <div class="flex items-center gap-4">
+                <a href="/"
+                    class="text-brand-gray dark:text-slate-400 hover:text-brand-accent transition-colors font-medium text-sm">
+                    &larr; Back to Dashboard
+                </a>
+                <button id="themeToggle" class="text-sm text-brand-gray dark:text-slate-400 hover:text-brand-accent">
+                    🌙
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <main id="app-container"
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-8 transition-opacity duration-300">
+            <!-- Content injected here via JS -->
+            <div class="flex flex-col items-center justify-center py-12 gap-4">
+                <div
+                    class="w-10 h-10 border-4 border-slate-200 dark:border-slate-700 border-t-brand-accent rounded-full animate-spin">
+                </div>
+                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium animate-pulse">Loading your settings...
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { supabase } from "/guard.js";
+        window.supabase = supabase;
+
+        const container = document.getElementById("app-container");
+        let sessionToken = null;
+
+        async function init() {
+            try {
+                // 1) Get session
+                const { data: { session } } = await supabase.auth.getSession();
+
+                if (!session) {
+                    location.href = "/";
+                    return;
+                }
+
+                sessionToken = session.access_token;
+
+                // 2) Fetch config
+                const res = await fetch('/api/user/config', {
+                    headers: { 'Authorization': `Bearer ${sessionToken}` }
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to load configuration");
+                }
+
+                const config = await res.json();
+                renderState(config);
+                if (config.analysisReady === true) {
+
+                    const analysisRes = await fetch('/api/analysis/run-weekly', {
+                        headers: { 'Authorization': `Bearer ${sessionToken}` }
+                    });
+
+                    const analysisData = await analysisRes.json();
+
+                    console.log('Weekly analysis response:', analysisData);
+                }
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `
+        <div class="text-center py-8">
+            <p class="text-red-600 font-semibold mb-2">Error loading account settings</p>
+            <p class="text-slate-500 text-sm">${err.message}</p>
+        </div>
+        `;
+            }
+        }
+
+        // Dark mode toggle
+        const root = document.documentElement;
+        if (localStorage.getItem('theme') === 'dark') {
+            root.classList.add('dark');
+        }
+
+        const toggle = document.getElementById('themeToggle');
+        toggle?.addEventListener('click', () => {
+            root.classList.toggle('dark');
+            localStorage.setItem(
+                'theme',
+                root.classList.contains('dark') ? 'dark' : 'light'
+            );
+        });
+
+        // Action handers available globally for inline onclick
+        window.reconnectWebsite = () => {
+            location.href = "/connected.html";
+        };
+
+        window.rerunDetection = async (btn) => {
+            const originalText = btn.textContent;
+            btn.textContent = "Detecting...";
+            btn.disabled = true;
+            btn.classList.add("opacity-50", "cursor-not-allowed");
+
+            try {
+                const res = await fetch('/api/ga/initialise-analysis', {
+                    headers: { 'Authorization': `Bearer ${sessionToken}` }
+                });
+                const data = await res.json()
+
+                if (data.propertySelectionRequired) {
+                    window.location.href = "/connected.html"
+                    return
+                }
+
+                location.reload();
+            } catch (err) {
+                console.error(err);
+                alert("Failed to rerun detection.");
+                btn.textContent = originalText;
+                btn.disabled = false;
+                btn.classList.remove("opacity-50", "cursor-not-allowed");
+            }
+        };
+
+        function confidenceLabel(score) {
+            if (score >= 80) return "Confirmed automatically"
+            if (score >= 50) return "Detected automatically"
+            if (score >= 30) return "Detected (recommended)"
+            return "Needs review"
+        }
+
+        function humanizeEvent(event) {
+            if (!event) return "Not detected"
+
+            const map = {
+                generate_lead: "Form submissions",
+                submit_form: "Form submissions",
+                contact_form_submit: "Contact form submissions",
+                book_now: "Booking requests"
+            }
+
+            if (map[event]) return map[event]
+
+            return event.replace(/_/g, " ")
+        }
+
+        function renderState(config) {
+            // STATE 1 — Not configured
+            if (!config.configured) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center text-center py-6">
+                        <div class="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center text-slate-400 dark:text-slate-400 mb-6">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                        <h2 class="text-xl font-bold mb-2">Your analytics configuration is not ready.</h2>
+                        <p class="text-brand-gray mb-8">We haven't detected your Google Analytics setup yet.</p>
+                        <button onclick="reconnectWebsite()" class="px-6 py-3 bg-brand-accent text-white font-medium rounded-xl hover:bg-blue-700 transition">
+                            Run setup again
+                        </button>
+                    </div>
+                `;
+            }
+            // STATE 2 — Configured but analysisReady = false
+            else if (!config.analysisReady) {
+                container.innerHTML = `
+                    <div class="flex items-center gap-3 mb-8">
+                        <h2 class="text-2xl font-bold">Analytics Settings</h2>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            Needs Attention
+                        </span>
+                    </div>
+
+                    <div class="space-y-6 mb-8">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 rounded-xl">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Detected Conversion Event</p>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">${config.conversionEvent || 'None identified'}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 rounded-xl">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Detected Enquiry Page</p>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">${config.enquiryPage || 'None identified'}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-100 dark:border-yellow-900/50 rounded-xl text-sm text-yellow-800 dark:text-yellow-600">
+                            We couldn't confidently detect your primary conversion signals. Make sure GA4 is tracking form submissions or destination pages, then retry.
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-3">
+                        <button onclick="reconnectWebsite()" class="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                            Change Property
+                        </button>
+                        <button onclick="rerunDetection(this)" class="px-5 py-2.5 bg-brand-accent text-white font-medium rounded-lg hover:bg-blue-700 transition shadow-sm">
+                            Re-run detection
+                        </button>
+                    </div>
+                `;
+            }
+            // STATE 3 — analysisReady = true
+            else {
+                container.innerHTML = `
+                    <div class="flex items-center gap-3 mb-8">
+                        <h2 class="text-2xl font-bold">Analytics Settings</h2>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Ready
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                        <div class="p-5 bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 rounded-xl">
+                            <p class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Website</p>
+                            <p class="font-medium text-slate-700 dark:text-slate-300">${config.websiteName || config.propertyId}</p>
+                        </div>
+
+                        <div class="p-5 bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 rounded-xl">
+                            <p class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Primary Conversion</p>
+                            <div class="flex items-center justify-between">
+                                <p class="font-medium text-slate-900 dark:text-slate-100">${humanizeEvent(config.conversionEvent)}</p>
+                                <span class="text-xs font-medium text-slate-400 dark:text-slate-500">${confidenceLabel(config.conversionConfidence)}</span>
+                            </div>
+                        </div>
+
+                        <div class="p-5 bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 rounded-xl sm:col-span-2">
+                            <p class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Primary Contact Page</p>
+                            <div class="flex items-center justify-between">
+                                <p class="font-medium text-slate-900 dark:text-slate-100 break-all">${config.enquiryPage || 'None'}</p>
+                                <span class="text-xs font-medium text-slate-400 dark:text-slate-500">${confidenceLabel(config.enquiryConfidence)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-3">
+                        <button onclick="reconnectWebsite()" class="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                            Change Property
+                        </button>
+                        <button onclick="rerunDetection(this)" class="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                            Re-run detection
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Start flow
+        init();
+    </script>
+</body>
+
+</html>

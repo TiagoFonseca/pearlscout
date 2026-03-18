@@ -2,49 +2,209 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connected</title>
+    <meta charset="UTF-8" />
+    <title>PearlScout</title>
+
+    <script type="module">
+        import { guard } from "/guard.js"
+        await guard("connected")
+    </script>
+
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #0b0f14;
+            color: #e7edf3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .card {
+            max-width: 520px;
+            opacity: 0;
+            transition: opacity .25s ease;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background: #1f6feb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2f81f7;
+        }
+
+        .muted {
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Google Analytics connected</h1>
-    <p>Your weekly explanation will arrive Monday morning.</p>
+    <div class="card" id="app"></div>
 
     <script type="module">
-        import { guard, supabase } from "/guard.js";
+        import { supabase } from "/guard.js"
 
-        await guard("connected");
-        async function init() {
+        const app = document.getElementById("app")
+
+        start()
+
+        async function start() {
             try {
-                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-                if (sessionError || !session) {
-                    console.error("No session found!");
+                // 1️⃣ Get session
+                const { data: { session } } = await supabase.auth.getSession()
+
+                if (!session) {
+                    location.href = "/"
+                    return
+                }
+
+                // 2️⃣ Check if onboarding complete
+                const [statusRes, configRes] = await Promise.all([
+                    fetch('/api/user/status', { headers: { Authorization: `Bearer ${session.access_token}` } }),
+                    fetch('/api/user/config', { headers: { Authorization: `Bearer ${session.access_token}` } })
+                ]);
+
+                const status = await statusRes.json();
+                const config = await configRes.json();
+
+                if (status.connected && config.configured) {
+                    location.replace("/account.html");
                     return;
                 }
 
-                const res = await fetch('/api/ga/properties', {
-                    headers: {
-                        Authorization: `Bearer ${session.access_token}`
+                if (status.connected && !config.configured) {
+                    app.innerHTML = `
+                        <h1>Analysing your data…</h1>
+                        <p class="muted">We're verifying your recent traffic and conversion events.<br />This may take up to 10 seconds.</p>
+                    `;
+                    app.style.opacity = "1";
+
+                    try {
+                        await fetch("/api/ga/initialise-analysis", {
+                            headers: { Authorization: `Bearer ${session.access_token}` }
+                        });
+                    } catch (err) {
+                        console.error("Initialise failed, continuing anyway", err);
                     }
-                });
 
-                const data = await res.json();
-                console.log("GA properties:", data.properties);
-
-                if (data.properties && data.properties.length === 1) {
-                    console.log("Only one property detected. Auto-selecting:", data.properties[0].display_name);
-                    // Logic to auto-select will go here later
-                } else if (data.properties && data.properties.length > 1) {
-                    console.log("Multiple properties detected. Need to show UI.");
-                    // Logic to show UI will go here later
+                    location.replace("/account.html");
+                    return;
                 }
+
+                // 3️⃣ Fetch GA properties (only first-time users)
+                const res = await fetch("/api/ga/properties", {
+                    headers: { Authorization: `Bearer ${session.access_token}` }
+                })
+
+                const data = await res.json()
+                if (!res.ok) throw new Error(data.error || "Failed to load properties")
+
+                handleProperties(data.properties, session.access_token)
+                app.style.opacity = "1"
+
             } catch (err) {
-                console.error("Error fetching GA properties:", err);
+                showError(err.message)
+                app.style.opacity = "1"
             }
         }
 
-        init();
+        function handleProperties(properties, token) {
+            if (!properties || properties.length === 0) {
+                app.innerHTML = `
+          <h1>No website detected</h1>
+          <p class="muted">
+            We couldn't find a Google Analytics property.
+            Make sure Analytics is installed on your site, then reconnect.
+          </p>
+          <button onclick="location.href='/activate.html'">Reconnect Google</button>
+        `
+                return
+            }
+
+            if (properties.length === 1) {
+                selectProperty(properties[0], token)
+                return
+            }
+
+            app.innerHTML = `
+        <h1>Select your website</h1>
+        <p class="muted">We found multiple websites in your account</p>
+        ${properties.map(p => `
+          <button data-id="${p.property_id}" data-name="${p.display_name}">
+            ${p.display_name}
+          </button>
+        `).join("")}
+      `
+
+            document.querySelectorAll("button").forEach(btn => {
+                btn.onclick = () => selectProperty({
+                    property_id: btn.dataset.id,
+                    display_name: btn.dataset.name
+                }, token)
+            })
+        }
+
+        async function selectProperty(property, token) {
+            app.innerHTML = `
+        <h1>Finalising setup…</h1>
+        <p class="muted">Saving your website selection</p>
+      `
+
+            const res = await fetch("/api/ga/select-property", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    property_id: property.property_id,
+                    display_name: property.display_name
+                })
+            })
+
+            if (!res.ok) {
+                showError("Failed to save website selection")
+                return
+            }
+
+            app.innerHTML = `
+        <h1>Analysing your data…</h1>
+        <p class="muted">We're verifying your recent traffic and conversion events.<br />This may take up to 10 seconds.</p>
+      `
+
+            // Trigger the initial conversion and page detection
+            try {
+                await fetch("/api/ga/initialise-analysis", {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+            } catch (err) {
+                console.error("Initialise failed, continuing anyway", err)
+            }
+
+            location.replace("/account.html")
+        }
+
+        function showError(msg) {
+            app.innerHTML = `
+        <h1>Something went wrong</h1>
+        <p class="muted">${msg}</p>
+        <button onclick="location.reload()">Try again</button>
+      `
+        }
     </script>
 </body>
 
